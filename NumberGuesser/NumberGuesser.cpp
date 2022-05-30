@@ -58,9 +58,9 @@ bool NumberGuesser(int difficulty)
     int guess;
     int playAgain;
 
-    cout << "*** PARAMETERS ***" << endl;
-    cout << randomNumber << endl;
-    cout << "***********" << endl;
+    // cout << "*** PARAMETERS ***" << endl;
+    // cout << randomNumber << endl;
+    // cout << "***********" << endl;
 
     while (guessesLeft > 0)
     {
@@ -75,12 +75,12 @@ bool NumberGuesser(int difficulty)
         }
         else if (guess > randomNumber)
         {
-            cout << "\nYour guess was to high"
+            cout << "\nYour guess was to high\n"
                  << endl;
         }
         else
         {
-            cout << "\nYour guess was to low"
+            cout << "\nYour guess was to low\n"
                  << endl;
         }
         guessesLeft--;

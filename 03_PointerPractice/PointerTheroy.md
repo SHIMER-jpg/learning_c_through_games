@@ -10,8 +10,8 @@
 
 `&variable;`  -> Returns a hex address, known as _*reference*_
 
-`int x = 5;
-int * pointerName = &x;` -> Stores the address of the integer above, wouldn't work with other type
+`int x = 5;`
+`int * pointerName = &x;` -> Stores the address of the integer above, wouldn't work with other type
 
 `int & intRef = x;` -> Creates a reference _"intRef"_ to _"x"_, which if altered, ends up altering _x_
 

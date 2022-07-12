@@ -1,4 +1,4 @@
-#CHEATSHEET
+### CHEATSHEET
 
 - Pointers Store addresses of variables:
 
@@ -19,19 +19,19 @@ int * pointerName = &x;` -> Stores the address of the integer above, wouldn't wo
 
 `intRef = 10;` -> would change the value of _x_ to _10_
 
-*HERE IS WHERE IT GET'S MESSY*
+### *HERE IS WHERE IT GET'S MESSY*
 
 `const int * xPtr = &x;` -> Stores the address of _x_ without being able to de-reference it later, yet being able to change where it points
 `*xPtr = 10;` -> this cant be done
 `xPtr = &y;` -> this can be done
-------------
+
 `int * const yPtr = &y;` -> Can't change where it points but it can be de-referenced, this are basically references
 `*yPtr = 19;` -> Works
 `yPtr = &x;` -> Won't work
-------------
+
 `const int & xRef = x;` -> Returns a reference that cannot be changed
 `const int * const xPtr2 = &x;` -> Basically the same that above, but more complex.
-------------
+
 If pointers point to an array like:
 
 `int array[5] = {1,2,3,4,5}

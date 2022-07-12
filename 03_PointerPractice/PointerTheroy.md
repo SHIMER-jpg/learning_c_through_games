@@ -22,12 +22,12 @@ int * pointerName = &x;` -> Stores the address of the integer above, wouldn't wo
 ### *HERE IS WHERE IT GET'S MESSY*
 
 `const int * xPtr = &x;` -> Stores the address of _x_ without being able to de-reference it later, yet being able to change where it points
-`*xPtr = 10;` -> this cant be done
-`xPtr = &y;` -> this can be done
+- `*xPtr = 10;` -> this cant be done
+- `xPtr = &y;` -> this can be done
 
 `int * const yPtr = &y;` -> Can't change where it points but it can be de-referenced, this are basically references
-`*yPtr = 19;` -> Works
-`yPtr = &x;` -> Won't work
+- `*yPtr = 19;` -> Works
+- `yPtr = &x;` -> Won't work
 
 `const int & xRef = x;` -> Returns a reference that cannot be changed
 `const int * const xPtr2 = &x;` -> Basically the same that above, but more complex.

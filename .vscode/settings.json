@@ -8,6 +8,7 @@
         "unordered_map": "cpp",
         "vector": "cpp",
         "system_error": "cpp",
-        "cmath": "cpp"
+        "cmath": "cpp",
+        "cctype": "cpp"
     }
 }

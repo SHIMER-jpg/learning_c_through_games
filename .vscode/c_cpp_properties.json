@@ -6,7 +6,7 @@
       "defines": ["_DEBUG", "UNICODE", "_UNICODE"],
       "cStandard": "c17",
       "cppStandard": "c++17",
-      "intelliSenseMode": "linux-clang-x64",
+      "intelliSenseMode": "windows-gcc-x64",
       "compilerPath": "/usr/bin/g++"
     }
   ],

@@ -9,16 +9,13 @@ using namespace std;
 const int IGNORE_CHARS = 25;
 const char *INPUT_ERROR = "Input error, please try again!";
 
-char GetCharacter(const char *prompt, const char *error);
-char GetCharacter(const char *prompt, const char *error, const char validInput[], int validInputLength);
-
 int GetSecretPhrase(char secretPhrase[], int MAX_LENGTH_OF_PHRASE);
 char *MakeHiddenPhrase(const char *secretPhrase, int secretPhraseLength);
 void DrawBoard(int numberOfGuessesLeft, const char *noptrHiddenPhrase);
 bool WantToPlayAgain();
 bool IsGameOver(int numberOfGuessesLeft, const char *noptrHiddenPhrase, const char secretPhrase[]);
 void UpdateBoard(char guess, char *noptrHiddenPhrase, const char secretPhrase[], int secretPhraseLength, int &numberOfGuessesLeft);
-void DisplayResult(const char * secretPhrase, int numberOfGuessesLeft);
+void DisplayResult(const char *secretPhrase, int numberOfGuessesLeft);
 
 int main()
 {
@@ -46,7 +43,7 @@ int main()
         } while (IsGameOver(numberOfGuessesLeft, optrHiddenPhrase, secretPhrase));
 
         // Display results
-        DisplayResult(secretPhrase,numberOfGuessesLeft);
+        DisplayResult(secretPhrase, numberOfGuessesLeft);
 
         delete[] optrHiddenPhrase;
     } while (WantToPlayAgain());
@@ -54,11 +51,14 @@ int main()
     return 0;
 }
 
-bool IsGameOver(int numberOfGuessesLeft, const char *noptrHiddenPhrase, const char secretPhrase[]){
+bool IsGameOver(int numberOfGuessesLeft, const char *noptrHiddenPhrase, const char secretPhrase[])
+{
     bool hasDash = false;
-    for(int i = 0; i< strlen(secretPhrase) ; i++ ){
-        if( noptrHiddenPhrase[i] == '-'){
-            hasDash=true;
+    for (int i = 0; i < strlen(secretPhrase); i++)
+    {
+        if (noptrHiddenPhrase[i] == '-')
+        {
+            hasDash = true;
             break;
         }
     }
@@ -71,19 +71,21 @@ void UpdateBoard(char guess, char *noptrHiddenPhrase, const char secretPhrase[],
     bool found = false;
     for (int i = 0; i < secretPhraseLength; i++)
     {
-        if (tolower(secretPhrase[i]) == tolower(guess)){
+        if (tolower(secretPhrase[i]) == tolower(guess))
+        {
             noptrHiddenPhrase[i] = secretPhrase[i];
-            found=true;
+            found = true;
         }
     }
 
-    if(!found)
+    if (!found)
         numberOfGuessesLeft--;
 }
 
-void DisplayResult(const char * secretPhrase, int numberOfGuessesLeft){
-    const char * result = numberOfGuessesLeft>0 ? "You won!" : "You lost!";
-    cout << "The answer was: " << secretPhrase <<endl;
+void DisplayResult(const char *secretPhrase, int numberOfGuessesLeft)
+{
+    const char *result = numberOfGuessesLeft > 0 ? "You won!" : "You lost!";
+    cout << "The answer was: " << secretPhrase << endl;
     cout << result << endl;
 }
 
@@ -221,7 +223,6 @@ void DrawBoard(int numberOfGuessesLeft, const char *noptrHiddenPhrase)
 bool WantToPlayAgain()
 {
     const char validInputs[] = {'y', 'n'};
-    char response = GetCharacter("Would you like to play again? (y/n) ", INPUT_ERROR, validInputs, 2);
+    char response = GetCharacter("Would you like to play again? (y/n) ", INPUT_ERROR, validInputs, 2, CC_EITHER);
     return response == validInputs[0];
 }
-

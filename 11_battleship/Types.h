@@ -45,6 +45,12 @@ struct Ship
     ShipPositionType position;
 };
 
+enum PlayerType
+{
+    PT_HUMAN,
+    PT_AI
+};
+
 enum GuessType
 {
     GT_NONE = 0,
@@ -61,6 +67,7 @@ struct ShipPartType
 struct Player
 {
     char playerName[PLAYER_NAME_SIZE];
+    PlayerType playerType;
     Ship ships[NUM_SHIPS];
     GuessType guessBoard[BOARD_SIZE][BOARD_SIZE];
     ShipPartType shipBoard[BOARD_SIZE][BOARD_SIZE];

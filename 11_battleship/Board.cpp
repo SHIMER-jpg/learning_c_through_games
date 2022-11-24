@@ -20,10 +20,19 @@ void PlaceShipOnBoard(Player &player, Ship &currentShip, ShipPositionType &posit
 char GetShipRepresentationAt(const Player &player, int row, int column);
 char GetGuessRepresentationAt(const Player &player, int row, int column);
 const char *GetShipNameForShipType(ShipType shipType);
+void SetupAiBoard(Player &player);
+ShipPositionType GetRandomPosition();
 
 void SetupBoards(Player &player)
 {
     ClearBoards(player);
+
+    if (player.playerType == PT_AI)
+    {
+        SetupAiBoard(player);
+        return;
+    }
+
     for (int i = 0; i < NUM_SHIPS; i++)
     {
         DrawBoards(player);
@@ -39,6 +48,31 @@ void SetupBoards(Player &player)
         } while (!IsValidPlacement(player, currentShip, position, orientation));
 
         PlaceShipOnBoard(player, currentShip, position, orientation);
+    }
+}
+
+ShipPositionType GetRandomPosition()
+{
+    ShipPositionType guess;
+    guess.row = rand() % BOARD_SIZE;
+    guess.col = rand() % BOARD_SIZE;
+    return guess;
+}
+
+void SetupAiBoard(Player &player)
+{
+    ShipPositionType pos;
+    ShipOrientationType orientation;
+    for (int i = 0; i < NUM_SHIPS; i++)
+    {
+        Ship &currentShip = player.ships[i];
+        do
+        {
+            pos = GetRandomPosition();
+            orientation = ShipOrientationType(rand() % 2);
+        } while (!IsValidPlacement(player, currentShip, pos, orientation));
+
+        PlaceShipOnBoard(player, currentShip, pos, orientation);
     }
 }
 

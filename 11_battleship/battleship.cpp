@@ -2,6 +2,8 @@
 #include <cctype>
 #include <cstring>
 #include <stdlib.h>
+#include <cstdlib>
+#include <ctime>
 #include ".\Types.h"
 #include ".\Utils.h"
 #include ".\Board.h"
@@ -16,10 +18,13 @@ void InitializePlayer(Player &player, const char *playerName);
 void SwitchPlayer(Player **currentPlayer, Player **otherPlayer);
 bool IsGameOver(const Player &player1, const Player &player2);
 void DisplayWinner(const Player &player1, const Player &player2);
+PlayerType GetPlayer2Type();
+ShipPositionType GetAiGuess(const Player &aiPlayer);
 
 int main()
 {
 
+    srand(time(NULL));
     Player player1;
     Player player2;
 
@@ -47,9 +52,28 @@ void InitializePlayer(Player &player, const char *playerName)
     InitializeShip(player.ships[0], AIRCRAFT_CARRIER_SIZE, ST_AIRCRAFT_CARRIER);
 }
 
+PlayerType GetPlayer2Type()
+{
+    const int validInputs[2] = {1, 2};
+
+    int input = GetInteger("Who would you like to player against?\n1. Human\n2. AI\n\nWhat is your choice? ", INPUT_ERROR_STRING, validInputs, 2);
+
+    if (input == 1)
+    {
+        return PT_HUMAN;
+    }
+    else
+    {
+        return PT_AI;
+    }
+}
+
 void PlayGame(Player &player1, Player &player2)
 {
     ClearScreen();
+    player1.playerType = PT_HUMAN;
+    player2.playerType = GetPlayer2Type();
+
     SetupBoards(player1);
     SetupBoards(player2);
 
@@ -58,23 +82,26 @@ void PlayGame(Player &player1, Player &player2)
 
     do
     {
-        DrawBoards(*currentPlayer);
+        if (currentPlayer->playerType == PT_HUMAN)
+            DrawBoards(*currentPlayer);
         bool isValidGuess = false;
         ShipPositionType guess;
         std::cout << currentPlayer->playerName << "'s Turn" << std::endl;
         do
         {
-            std::cout << currentPlayer->playerName << " what is your guess? " << std::endl;
-
-            guess = GetBoardPosition();
-
-            std::cout << "\033[1;31m[DEBUG]: VALID GUESS " << &guess
-                      << "\033[0m\n"
-                      << std::endl;
+            if (currentPlayer->playerType == PT_HUMAN)
+            {
+                std::cout << currentPlayer->playerName << " what is your guess? " << std::endl;
+                guess = GetBoardPosition();
+            }
+            else
+            {
+                guess = GetAiGuess(*currentPlayer);
+            }
 
             isValidGuess = currentPlayer->guessBoard[guess.row][guess.col] == GT_NONE;
 
-            if (!isValidGuess)
+            if (!isValidGuess && currentPlayer->playerType == PT_HUMAN)
             {
                 std::cout << "That was not a valid guess! Please try again" << std::endl;
             }
@@ -83,11 +110,25 @@ void PlayGame(Player &player1, Player &player2)
 
         ShipType type = UpdateBoards(guess, *currentPlayer, *otherPlayer);
 
-        DrawBoards(*currentPlayer);
+        if (currentPlayer->playerType == PT_AI)
+        {
+            DrawBoards(*otherPlayer);
+            std::cout << currentPlayer->playerName << " chose row " << char(guess.row + 'A') << " and column " << guess.col << std::endl;
+        }
+        else
+            DrawBoards(*currentPlayer);
+
         if (type != ST_NONE && IsSunk(*otherPlayer, otherPlayer->ships[type - 1]))
         {
-            std::cout << "You sunk " << otherPlayer->playerName << "'s " << GetShipNameForShipType(type) << " !" << std::endl;
-        }
+            if (currentPlayer->playerType == PT_AI)
+            {
+                std::cout << currentPlayer->playerName << " sunk your" << GetShipNameForShipType(type) << " !" << std::endl;
+            }
+            else
+            {
+                std::cout << "You sunk " << otherPlayer->playerName << "'s " << GetShipNameForShipType(type) << " !" << std::endl;
+            }
+        };
         SwitchPlayer(&currentPlayer, &otherPlayer);
         WaitForKeyPress();
 
@@ -126,4 +167,12 @@ bool WantsToPlayAgain()
     const char validInput[2] = {'y', 'n'};
     input = GetCharacter("Do you want to play again? (y/n): ", INPUT_ERROR_STRING, validInput, 2, CC_LOWER_CASE);
     return input == 'y';
+}
+
+ShipPositionType GetAiGuess(const Player &aiPlayer)
+{
+    ShipPositionType guess;
+    guess.row = rand() % BOARD_SIZE;
+    guess.col = rand() % BOARD_SIZE;
+    return guess;
 }

@@ -20,7 +20,7 @@ bool IsSunk(const Player &player, const Ship &ship)
     {
         for (int c = ship.position.col; c < (ship.position.col + ship.shipSize); c++)
         {
-            if (player.shipBoard[ship.position.row][c].isHit == false)
+            if (!player.shipBoard[ship.position.row][c].isHit)
             {
                 return false;
             }
@@ -30,7 +30,7 @@ bool IsSunk(const Player &player, const Ship &ship)
     {
         for (int r = ship.position.row; r < (ship.position.row + ship.shipSize); r++)
         {
-            if (player.shipBoard[r][ship.position.col].isHit == false)
+            if (!player.shipBoard[r][ship.position.col].isHit)
             {
                 return false;
             }

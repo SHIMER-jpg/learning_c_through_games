@@ -18,11 +18,11 @@ enum
 enum ShipType
 {
     ST_NONE = 0,
-    ST_AIRCRAFT_CARRIER,
-    ST_BATTLESHIP,
-    ST_CRUISER,
+    ST_SUBMARINE,
     ST_DESTROYER,
-    ST_SUBMARINE
+    ST_CRUISER,
+    ST_BATTLESHIP,
+    ST_AIRCRAFT_CARRIER
 };
 
 enum ShipOrientationType
